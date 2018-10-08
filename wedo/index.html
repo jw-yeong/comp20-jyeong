@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>We Do</title>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+    </head>
+    
+    <body>
+        
+        <h1 id="title">We Do</h1>
+        
+        <video src="https://www.cs.tufts.edu/comp/20/wedo.mp4" id="wedo" controls></video>
+        <div id="lyrics"></div>
+        
+        <script>
+            // Complete this section and create a CSS file named style.css
+            var lyric = document.getElementById("lyrics");
+            var vid = document.getElementById("wedo");
+            
+            vid.ontimeupdate = function () {
+            if (4 <= vid.currentTime && vid.currentTime < 6) {
+                lyric.innerHTML = "Who controls the British crown?";
+            }
+            else if (6 <= vid.currentTime && vid.currentTime < 8) {
+                lyric.innerHTML = "Who keeps the metric system down?";
+            }
+            else if (8 <= vid.currentTime && vid.currentTime < 12) {
+                lyric.innerHTML = "We do, we do!";
+            }
+            else if (12 <= vid.currentTime && vid.currentTime < 15) {
+                lyric.innerHTML = "Who keeps Atlantis off the maps?";
+            }
+            else if (15 <= vid.currentTime && vid.currentTime < 17) {
+                lyric.innerHTML = "Who keeps the Martians under wraps?";
+            }
+            else if (17 <= vid.currentTime && vid.currentTime < 21) {
+                lyric.innerHTML = "We do, we do!";
+                }
+            else if (21 <= vid.currentTime && vid.currentTime < 25) {
+                lyric.innerHTML = "Who holds back the electric car?";
+            }
+            else if (25 <= vid.currentTime && vid.currentTime < 29) {
+                lyric.innerHTML = "Who makes Steve Guttenberg a star?";
+            }
+            else if (29 <= vid.currentTime && vid.currentTime < 33.5) {
+                lyric.innerHTML = "We do, we do!";
+            }
+            else if (33.5 <= vid.currentTime && vid.currentTime < 35.5) {
+                lyric.innerHTML = "Who robs cavefish of their sight?";
+            }
+            else if (35.5 <= vid.currentTime && vid.currentTime < 38) {
+                lyric.innerHTML = "Who rigs every Oscar night?";
+            }
+            else if (38 <= vid.currentTime && vid.currentTime < 42) {
+                lyric.innerHTML = "We do, we do!";
+            }
+            else if (42 <= vid.currentTime && vid.currentTime) {
+                lyric.innerHTML = "Got a feeling so complicated";
+            }
+            };
+        
+        </script>
+    </body>
+</html>	
