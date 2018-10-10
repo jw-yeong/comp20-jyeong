@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>MBTA app prototype</title>
+        <link rel="stylesheet" href="mbtastyle.css" type="text/css" />
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACoadK-bm81hQ4-R7kNtITHSp9qT4hmmM"></script>
+        
+        
+        <script>
+        function init()
+        {
+        // Faneuil Hall
+        var landmark = new google.maps.LatLng(42.3599611, -71.0567528);
+        
+        // Set up map
+        var myOptions = {
+        zoom: 13, // The larger the zoom number, the bigger the zoom
+        center: landmark,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+        // Create the map in the "map_canvas" <div>
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        }
+            
+            
+            
+        
+        </script>
+        
+    </head>
+    
+    
+    <body onload="init()">
+        <div id="map_canvas"></div>
+    </body>
+    
+</html>
