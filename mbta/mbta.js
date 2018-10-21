@@ -28,24 +28,35 @@ function init()
     var Braintree = new google.maps.LatLng(42.2078543, -71.0011385);
 
 
-    
     // Set up map
     var myOptions = {
         zoom: 13, // The larger the zoom number, the bigger the zoom
         center: SouthStation,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-				
     // Create the map in the "map_canvas" <div>
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     
 
-    // Create a marker
+    // Create markers
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, title: "South Station, Boston, MA"});
-    Southmarker.setMap(map);
+    SouthStationmarker.setMap(map);
     var Andrewmarker = new google.maps.Marker({position: Andrew, title: "Andrew, Boston, MA"});
     Andrewmarker.setMap(map);
     
+
+    //Create polylines
+    var pathCoordinates = [Alewife, Davis, PorterSquare];
+    var RedLinePath = new google.maps.Polyline({
+                                               path: pathCoordinates,
+                                               geodesic: true,
+                                               StrokeColor: '#FF0000',
+                                               strokeOpacity: 1.0,
+                                               StrokeWeight: 2});
+    RedLinePath.setMap(map);
+
+
+
     
     // This is a global info window...
     var infowindow = new google.maps.InfoWindow();
