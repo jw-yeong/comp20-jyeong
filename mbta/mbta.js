@@ -38,31 +38,56 @@ function init()
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     
 
-    // Create markers
+    // Create station markers
+    // Also create event listeners that get schedule data upon marker click
     var icon = 'icon.jpg';
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     
 
-    //Create polylines
+    //Create station polylines
     var pathCoordinates = [Alewife, Davis, PorterSquare];
-    var RedLinePath = new google.maps.Polyline({
-                                               path: pathCoordinates,
-                                               geodesic: true,
-                                               strokeColor: '#ff0000',
-                                               strokeOpacity: 1.0,
-                                               strokeWeight: 2});
-    RedLinePath.setMap(map);
+    var RedLinePath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 2});
 
-
-
-    
-    // This is a global info window...
+    //Create self-related variables, markers, then centre map on self
+    var myLat = 42.4;
+    var myLng = -71;
+    //if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
+    //    navigator.geolocation.getCurrentPosition(function(position) {
+    //                                             myLat = position.coords.latitude;
+    //                                             myLng = position.coords.longitude;
+    //                                             });
+    //}
+    //else {alert("Geolocation is not supported by your web browser.");}
+    me = new google.maps.LatLng(myLat, myLng);
+    map.panTo(me);
+    var meicon = 'meicon.jpg';
+    memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
     var infowindow = new google.maps.InfoWindow();
-    // Open info window on click of marker
-    google.maps.event.addListener(marker, 'click', function() {
-                                              infowindow.setContent(marker.title);
-                                              infowindow.open(map, marker);
+    google.maps.event.addListener(memarker, 'click', function() {
+                                              infowindow.setContent(memarker.title);
+                                              infowindow.open(map, memarker);
                                               });
     
+    /*
+    //Create list of all station markers, then iterate and compare to self to calculate closest station.
+    //Then, change self's marker info and draw polyline
+    var allmarkers = [Alewife, Davis, PorterSquare];
+    var allmarkerslength = allmarkers.length;
+    var closestmarker;
+    for (var i = 0; i < allmarkerslength; i++){
+        if (allmarkers[i] CLOSER THAN closestmarker){
+            closestmarker = allmarkers[i];
+        }
+    }
+    //var closestCoordinates = [me, closestmarker];
+    //var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 2});
+    */
+
+    
 }
+
+
+
+
+
