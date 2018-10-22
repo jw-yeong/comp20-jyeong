@@ -1,5 +1,5 @@
-// Function to get JSON schedule data, taking stop id as argument
-function getschedule(stop_id)
+// Function to get JSON schedule data, taking stop id and schedule pointer to store results
+function getschedule(stop_id, schedule)
 {
     var request;
     request = new XMLHttpRequest();
@@ -10,16 +10,13 @@ function getschedule(stop_id)
         if (request.readyState == 4 && request.status == 200) {
             theData = request.responseText;
             messages = JSON.parse(theData);
-            schedule = "";
             for (i = 0; i < messages.data.length; i++) {
                 schedule += messages.data[i].attributes.arrival_time;
                 schedule += messages.data[i].attributes.departure_time;
                 schedule += messages.data[i].attributes.direction_id;
+                //console.log(schedule);
             }
-            //console.log(schedule);
-            return schedule;
         }
-        return "Something went wrong with the getting the schedule.";
     }
         
     request.send();
@@ -76,7 +73,9 @@ function init()
     var ssinfowindow = new google.maps.InfoWindow();
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
     google.maps.event.addListener(SouthStationmarker, 'click', function() {
-                                  schedule = getschedule("place-sstat");
+                                  var schedule = "";
+                                  getschedule("place-sstat", schedule);
+                                  console.log(schedule);
                                   ssinfowindow.setContent(schedule);
                                   ssinfowindow.open(map, SouthStationmarker);});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
