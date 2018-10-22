@@ -1,7 +1,6 @@
 // Function to get JSON schedule data, taking stop id as argument
 function getschedule(stop_id)
 {
-    console.log("get schedule called");
     var request;
     request = new XMLHttpRequest();
     var url = "https://chicken-of-the-sea.herokuapp.com/redline/schedule.json?stop_id="+stop_id;
@@ -17,7 +16,7 @@ function getschedule(stop_id)
                 schedule += messages.data[i].attributes.departure_time;
                 schedule += messages.data[i].attributes.direction_id;
             }
-            console.log(schedule);
+            //console.log(schedule);
             return schedule;
         }
         return "Something went wrong with the getting the schedule.";
@@ -74,10 +73,12 @@ function init()
 
     // Create station markers and event listeners that display windowed schedule data upon marker click
     var icon = 'icon.jpg';
+    var ssinfowindow = new google.maps.InfoWindow();
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
     google.maps.event.addListener(SouthStationmarker, 'click', function() {
-                                  infowindow.setContent(getschedule("place-sstat"));
-                                  infowindow.open(map, SouthStationmarker);});
+                                  schedule = getschedule("place-sstat");
+                                  ssinfowindow.setContent(schedule);
+                                  ssinfowindow.open(map, SouthStationmarker);});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     var PorterSquaremarker = new google.maps.Marker({position: PorterSquare, map: map, title: "Porter Square, Boston, MA", icon: icon});
     var HarvardSquaremarker = new google.maps.Marker({position: HarvardSquare, map: map, title: "Harvard Square, Boston, MA", icon: icon});
@@ -119,34 +120,39 @@ function init()
     
     
     //Create self-related variables, markers, then centre map on self
-    var myLat = 42.3;
-    var myLng = -71;
-    //TODO FIX
+    var meicon = 'meicon.jpg';
+    var meinfowindow = new google.maps.InfoWindow();
+    var myLat = 42.3; //arbitrary default
+    var myLng = -71;  //arbitrary default
+    var me;
+    var memarker;
     if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
         navigator.geolocation.getCurrentPosition(function(position) {
                                                  myLat = position.coords.latitude;
                                                  myLng = position.coords.longitude;
-                                                 //console.log(myLat);
-                                                 //console.log(myLng);
+                                                 me = new google.maps.LatLng(myLat, myLng);
+                                                 memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
+                                                 map.panTo(me);
+                                                 google.maps.event.addListener(memarker, 'click', function() {
+                                                                               meinfowindow.setContent(memarker.title);
+                                                                               meinfowindow.open(map, memarker);
+                                                                               });
                                                  });
     }
-    else {alert("Geolocation is not supported by your web browser.");}
-    
-
-    me = new google.maps.LatLng(myLat, myLng);
-    map.panTo(me);
-    var meicon = 'meicon.jpg';
-    memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
-    var infowindow = new google.maps.InfoWindow();
-    google.maps.event.addListener(memarker, 'click', function() {
-                                              infowindow.setContent(memarker.title);
-                                              infowindow.open(map, memarker);
-                                              });
+    else {alert("Geolocation is not supported by your web browser.");
+        me = new google.maps.LatLng(myLat, myLng);
+        memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
+        map.panTo(me);
+        google.maps.event.addListener(memarker, 'click', function() {
+                                      meinfowindow.setContent(memarker.title);
+                                      meinfowindow.open(map, memarker);
+                                      });
+    }
     
     
     //Create list of all station markers, then iterate and compare to self to calculate closest station.
     //Then, change self's marker info and draw polyline
-     var allmarkers = [SouthStationmarker, Andrewmarker, PorterSquaremarker, HarvardSquaremarker, JFKUMassmarker, 
+     var allmarkers = [SouthStationmarker, Andrewmarker, PorterSquaremarker, HarvardSquaremarker, JFKUMassmarker,
      SavinHillmarker, ParkStreetmarker, Broadwaymarker, NorthQuincymarker, Shawmutmarker, Davismarker, Alewifemarker, 
      KendallMITmarker, CharlesMGHmarker, DowntownCrossingmarker, QuincyCentermarker, QuincyAdamsmarker, Ashmontmarker,
      Wollastonmarker, FieldsCornermarker, CentralSquaremarker, Braintreemarker];
