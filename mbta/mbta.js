@@ -61,7 +61,6 @@ function init()
     var CentralSquare = new google.maps.LatLng(42.365486, -71.103802);
     var Braintree = new google.maps.LatLng(42.2078543, -71.0011385);
 
-
     // Set up map
     var myOptions = {
         zoom: 13, // The larger the zoom number, the bigger the zoom
@@ -70,14 +69,10 @@ function init()
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    // Create station markers
-    // Also create event listeners that get schedule data upon marker click
+    // Create station markers and event listeners that display windowed schedule data upon marker click
     var icon = 'icon.jpg';
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
-    //google.maps.event.addListener(SouthStationmarker, 'click', function() {
-      //                            infowindow.setContent(getschedule("place-sstat"));
-         //                         infowindow.open(map, SouthStationmarker);
-          //                        });
+    //google.maps.event.addListener(SouthStationmarker, 'click', function() {infowindow.setContent(getschedule("place-sstat")); infowindow.open(map, SouthStationmarker);});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     var PorterSquaremarker = new google.maps.Marker({position: PorterSquare, map: map, title: "Porter Square, Boston, MA", icon: icon});
     var HarvardSquaremarker = new google.maps.Marker({position: HarvardSquare, map: map, title: "Harvard Square, Boston, MA", icon: icon});
@@ -101,12 +96,12 @@ function init()
     var Braintreemarker = new google.maps.Marker({position: Braintree, map: map, title: "Braintree, Boston, MA", icon: icon});
 
     
-    
-
-    //Create station polylines
-    var pathCoordinates = [Alewife, Davis, PorterSquare];
-    var RedLinePath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 2});
-
+    //Create red polylines between stations
+    var pathCoordinates1 = [Alewife, Davis, PorterSquare, HarvardSquare, CentralSquare, KendallMIT, CharlesMGH, ParkStreet, DowntownCrossing,
+                            SouthStation, Broadway, Andrew, JFKUMass, NorthQuincy, Wollaston, QuincyCenter, QuincyAdams, Braintree];
+    var RedLinePath1 = new google.maps.Polyline({path: pathCoordinates1, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 3});
+    var pathCoordinates2 = [JFKUMass, SavinHill, FieldsCorner, Shawmut, Ashmont];
+    var RedLinePath2 = new google.maps.Polyline({path: pathCoordinates2, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 3});
     
 
     /****************************************************************************
@@ -139,23 +134,29 @@ function init()
                                               infowindow.open(map, memarker);
                                               });
     
-    /*
+    
     //Create list of all station markers, then iterate and compare to self to calculate closest station.
     //Then, change self's marker info and draw polyline
-    var allmarkers = [Andrewmarker, Davismarker, PorterSquaremarker]; //TODO CONTINUE
+     var allmarkers = [SouthStationmarker, Andrewmarker, PorterSquaremarker, HarvardSquaremarker, JFKUMassmarker, 
+     SavinHillmarker, ParkStreetmarker, Broadwaymarker, NorthQuincymarker, Shawmutmarker, Davismarker, Alewifemarker, 
+     KendallMITmarker, CharlesMGHmarker, DowntownCrossingmarker, QuincyCentermarker, QuincyAdamsmarker, Ashmontmarker,
+     Wollastonmarker, FieldsCornermarker, CentralSquaremarker, Braintreemarker];
+    
     var allmarkerslength = allmarkers.length;
-    var closestmarker = SouthStationmarker; //by default; why not?
+    var closestmarker = SouthStationmarker; //by default
+    
     for (var i = 0; i < allmarkerslength; i++){
-        if (allmarkers[i] CLOSER THAN closestmarker){   //TODO POLISH
+        if (google.maps.geometry.spherical.computeDistanceBetween(me, allmarkers[i].position)
+            < google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)){
             closestmarker = allmarkers[i];
         }
     }
-    memarker.title = "Closest station is " + closestmarker.title;
-    //var closestCoordinates = [me, closestmarker];
-    //var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
-    */
-
+    var milestoclosest = google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)*0.000621371;
+    memarker.title = "Closest station is " + closestmarker.title + milestoclosest.toString() + " miles";
+    var closestCoordinates = [me, closestmarker.position];
+    var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
     
+
 }
 
 
