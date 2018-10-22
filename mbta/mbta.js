@@ -1,28 +1,31 @@
-/*// Function to get JSON schedule data, taking stop id as argument
-function getschedule(var stop_id)
+// Function to get JSON schedule data, taking stop id as argument
+function getschedule(stop_id)
 {
+    console.log("get schedule called");
     var request;
     request = new XMLHttpRequest();
     var url = "https://chicken-of-the-sea.herokuapp.com/redline/schedule.json?stop_id="+stop_id;
     request.open("GET", url);
-    
-    //TODO POLISH
+
     request.onreadystatechange = function(){
         if (request.readyState == 4 && request.status == 200) {
             theData = request.responseText;
             messages = JSON.parse(theData);
             schedule = "";
-            for (i = 0; i < messages.length; i++) {
-                returnHTML += "<li>" + messages[i].content + " by " + messages[i].username +
-                "</li>";
+            for (i = 0; i < messages.data.length; i++) {
+                schedule += messages.data[i].attributes.arrival_time;
+                schedule += messages.data[i].attributes.departure_time;
+                schedule += messages.data[i].attributes.direction_id;
             }
-            schedule += "</ul>";
+            console.log(schedule);
             return schedule;
+        }
+        return "Something went wrong with the getting the schedule.";
     }
         
     request.send();
     
-}*/
+}
 
 // This function is where the magic happens
 // and by magic I mean everything
@@ -72,7 +75,9 @@ function init()
     // Create station markers and event listeners that display windowed schedule data upon marker click
     var icon = 'icon.jpg';
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
-    //google.maps.event.addListener(SouthStationmarker, 'click', function() {infowindow.setContent(getschedule("place-sstat")); infowindow.open(map, SouthStationmarker);});
+    google.maps.event.addListener(SouthStationmarker, 'click', function() {
+                                  infowindow.setContent(getschedule("place-sstat"));
+                                  infowindow.open(map, SouthStationmarker);});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     var PorterSquaremarker = new google.maps.Marker({position: PorterSquare, map: map, title: "Porter Square, Boston, MA", icon: icon});
     var HarvardSquaremarker = new google.maps.Marker({position: HarvardSquare, map: map, title: "Harvard Square, Boston, MA", icon: icon});
@@ -114,16 +119,20 @@ function init()
     
     
     //Create self-related variables, markers, then centre map on self
-    var myLat = 42.4;
+    var myLat = 42.3;
     var myLng = -71;
     //TODO FIX
-    //if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
-    //    navigator.geolocation.getCurrentPosition(function(position) {
-    //                                             myLat = position.coords.latitude;
-    //                                             myLng = position.coords.longitude;
-    //                                             });
-    //}
-    //else {alert("Geolocation is not supported by your web browser.");}
+    if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
+        navigator.geolocation.getCurrentPosition(function(position) {
+                                                 myLat = position.coords.latitude;
+                                                 myLng = position.coords.longitude;
+                                                 //console.log(myLat);
+                                                 //console.log(myLng);
+                                                 });
+    }
+    else {alert("Geolocation is not supported by your web browser.");}
+    
+
     me = new google.maps.LatLng(myLat, myLng);
     map.panTo(me);
     var meicon = 'meicon.jpg';
@@ -144,7 +153,8 @@ function init()
     
     var allmarkerslength = allmarkers.length;
     var closestmarker = SouthStationmarker; //by default
-    
+    /*
+    // TODO FIX
     for (var i = 0; i < allmarkerslength; i++){
         if (google.maps.geometry.spherical.computeDistanceBetween(me, allmarkers[i].position)
             < google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)){
@@ -155,7 +165,7 @@ function init()
     memarker.title = "Closest station is " + closestmarker.title + milestoclosest.toString() + " miles";
     var closestCoordinates = [me, closestmarker.position];
     var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
-    
+    */
 
 }
 
