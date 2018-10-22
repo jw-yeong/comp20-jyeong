@@ -1,9 +1,42 @@
+/*// Function to get JSON schedule data, taking stop id as argument
+function getschedule(var stop_id)
+{
+    var request;
+    request = new XMLHttpRequest();
+    var url = "https://chicken-of-the-sea.herokuapp.com/redline/schedule.json?stop_id="+stop_id;
+    request.open("GET", url);
+    
+    request.onreadystatechange = function(){
+        if (request.readyState == 4 && request.status == 200) {
+            // Step 5: when we get all the JSON data back, parse it and use it
+            theData = request.responseText;
+            messages = JSON.parse(theData);
+            returnHTML = "<ul>";
+            for (i = 0; i < messages.length; i++) {
+                returnHTML += "<li>" + messages[i].content + " by " + messages[i].username +
+                "</li>";
+            }
+            returnHTML += "</ul>";
+    }
+        
+    request.send();
+    
+}*/
+
 // This function is where the magic happens
 // and by magic I mean everything
 // It is called onload in the body tag in index.html
 function init()
 {
+    /****************************************************************************
+    // PART 1
+    // Create map, station positions, station markers, station info windows,
+    // and polylines between stations
+    ****************************************************************************/
+    
     // Store position of all stations
+    // An array of objects would have been better but I am pretending not to have
+    // taken COMP 15 to save myself some work
     var SouthStation = new google.maps.LatLng(42.352271, -71.05524200000001);
     var Andrew = new google.maps.LatLng(42.330154, -71.057655);
     var PorterSquare = new google.maps.LatLng(42.3884, -71.11914899999999);
@@ -36,12 +69,15 @@ function init()
     };
     // Create the map in the "map_canvas" <div>
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    
 
     // Create station markers
     // Also create event listeners that get schedule data upon marker click
     var icon = 'icon.jpg';
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
+    //google.maps.event.addListener(SouthStationmarker, 'click', function() {
+      //                            infowindow.setContent(getschedule("place-sstat"));
+         //                         infowindow.open(map, SouthStationmarker);
+          //                        });
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     
 
@@ -49,6 +85,17 @@ function init()
     var pathCoordinates = [Alewife, Davis, PorterSquare];
     var RedLinePath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 2});
 
+    
+
+    /****************************************************************************
+     //
+     // PART 2
+     // Locate and create self, closest station marker, update self,
+     // and draw polyline to closest station
+     //
+     ****************************************************************************/
+    
+    
     //Create self-related variables, markers, then centre map on self
     var myLat = 42.4;
     var myLng = -71;
@@ -72,7 +119,7 @@ function init()
     /*
     //Create list of all station markers, then iterate and compare to self to calculate closest station.
     //Then, change self's marker info and draw polyline
-    var allmarkers = [Alewife, Davis, PorterSquare];
+    var allmarkers = [Andrewmarker, Davismarker, PorterSquaremarker];
     var allmarkerslength = allmarkers.length;
     var closestmarker;
     for (var i = 0; i < allmarkerslength; i++){
@@ -81,7 +128,7 @@ function init()
         }
     }
     //var closestCoordinates = [me, closestmarker];
-    //var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#ff0000', strokeOpacity: 1.0, strokeWeight: 2});
+    //var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
     */
 
     
