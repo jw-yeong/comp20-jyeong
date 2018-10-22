@@ -39,10 +39,9 @@ function init()
     
 
     // Create markers
-    var SouthStationmarker = new google.maps.Marker({position: SouthStation, title: "South Station, Boston, MA"});
-    SouthStationmarker.setMap(map);
-    var Andrewmarker = new google.maps.Marker({position: Andrew, title: "Andrew, Boston, MA"});
-    Andrewmarker.setMap(map);
+    var icon = 'icon.jpg';
+    var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
+    var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
     
 
     //Create polylines
@@ -50,9 +49,9 @@ function init()
     var RedLinePath = new google.maps.Polyline({
                                                path: pathCoordinates,
                                                geodesic: true,
-                                               StrokeColor: '#FF0000',
+                                               strokeColor: '#ff0000',
                                                strokeOpacity: 1.0,
-                                               StrokeWeight: 2});
+                                               strokeWeight: 2});
     RedLinePath.setMap(map);
 
 
