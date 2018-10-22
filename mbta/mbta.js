@@ -136,41 +136,34 @@ function init()
                                                                                meinfowindow.setContent(memarker.title);
                                                                                meinfowindow.open(map, memarker);
                                                                                });
-                                                 });
+                                                 
+                                                 
+                                                 //Create list of all station markers, then iterate and compare to self to calculate closest station.
+                                                 //Then, change self's marker info and draw polyline
+                                                 var allmarkers = [SouthStationmarker, Andrewmarker, PorterSquaremarker, HarvardSquaremarker, JFKUMassmarker,
+                                                                   SavinHillmarker, ParkStreetmarker, Broadwaymarker, NorthQuincymarker, Shawmutmarker, Davismarker, Alewifemarker,
+                                                                   KendallMITmarker, CharlesMGHmarker, DowntownCrossingmarker, QuincyCentermarker, QuincyAdamsmarker, Ashmontmarker,
+                                                                   Wollastonmarker, FieldsCornermarker, CentralSquaremarker, Braintreemarker];
+                                                 
+                                                 var allmarkerslength = allmarkers.length;
+                                                 var closestmarker = SouthStationmarker; //by default
+                                                 
+                                                  // TODO FIX
+                                                  for (var i = 0; i < allmarkerslength; i++){
+                                                      if (google.maps.geometry.spherical.computeDistanceBetween(me, allmarkers[i].position)
+                                                          < google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)){
+                                                          closestmarker = allmarkers[i];
+                                                      }
+                                                  }
+                                                  var milestoclosest = google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)*0.000621371;
+                                                  memarker.title = "Closest station is: " + closestmarker.title + " " + milestoclosest.toString() + " miles";
+                                                  var closestCoordinates = [me, closestmarker.position];
+                                                  var closestPath = new google.maps.Polyline({path: closestCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
+                                                 
+                                                 }); //closes anonymous function.
     }
-    else {alert("Geolocation is not supported by your web browser.");
-        me = new google.maps.LatLng(myLat, myLng);
-        memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
-        map.panTo(me);
-        google.maps.event.addListener(memarker, 'click', function() {
-                                      meinfowindow.setContent(memarker.title);
-                                      meinfowindow.open(map, memarker);
-                                      });
-    }
+    else {alert("Geolocation is not supported by your web browser.");}
     
-    
-    //Create list of all station markers, then iterate and compare to self to calculate closest station.
-    //Then, change self's marker info and draw polyline
-     var allmarkers = [SouthStationmarker, Andrewmarker, PorterSquaremarker, HarvardSquaremarker, JFKUMassmarker,
-     SavinHillmarker, ParkStreetmarker, Broadwaymarker, NorthQuincymarker, Shawmutmarker, Davismarker, Alewifemarker, 
-     KendallMITmarker, CharlesMGHmarker, DowntownCrossingmarker, QuincyCentermarker, QuincyAdamsmarker, Ashmontmarker,
-     Wollastonmarker, FieldsCornermarker, CentralSquaremarker, Braintreemarker];
-    
-    var allmarkerslength = allmarkers.length;
-    var closestmarker = SouthStationmarker; //by default
-    /*
-    // TODO FIX
-    for (var i = 0; i < allmarkerslength; i++){
-        if (google.maps.geometry.spherical.computeDistanceBetween(me, allmarkers[i].position)
-            < google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)){
-            closestmarker = allmarkers[i];
-        }
-    }
-    var milestoclosest = google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)*0.000621371;
-    memarker.title = "Closest station is " + closestmarker.title + milestoclosest.toString() + " miles";
-    var closestCoordinates = [me, closestmarker.position];
-    var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
-    */
 
 }
 
