@@ -6,17 +6,18 @@ function getschedule(var stop_id)
     var url = "https://chicken-of-the-sea.herokuapp.com/redline/schedule.json?stop_id="+stop_id;
     request.open("GET", url);
     
+    //TODO POLISH
     request.onreadystatechange = function(){
         if (request.readyState == 4 && request.status == 200) {
-            // Step 5: when we get all the JSON data back, parse it and use it
             theData = request.responseText;
             messages = JSON.parse(theData);
-            returnHTML = "<ul>";
+            schedule = "";
             for (i = 0; i < messages.length; i++) {
                 returnHTML += "<li>" + messages[i].content + " by " + messages[i].username +
                 "</li>";
             }
-            returnHTML += "</ul>";
+            schedule += "</ul>";
+            return schedule;
     }
         
     request.send();
@@ -67,7 +68,6 @@ function init()
         center: SouthStation,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    // Create the map in the "map_canvas" <div>
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
     // Create station markers
@@ -79,6 +79,28 @@ function init()
          //                         infowindow.open(map, SouthStationmarker);
           //                        });
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
+    var PorterSquaremarker = new google.maps.Marker({position: PorterSquare, map: map, title: "Porter Square, Boston, MA", icon: icon});
+    var HarvardSquaremarker = new google.maps.Marker({position: HarvardSquare, map: map, title: "Harvard Square, Boston, MA", icon: icon});
+    var JFKUMassmarker = new google.maps.Marker({position: JFKUMass, map: map, title: ",JFK/UMass Boston, MA", icon: icon});
+    var SavinHillmarker = new google.maps.Marker({position: SavinHill, map: map, title: "Savin Hill, Boston, MA", icon: icon});
+    var ParkStreetmarker = new google.maps.Marker({position: ParkStreet, map: map, title: "Park Street, Boston, MA", icon: icon});
+    var Broadwaymarker = new google.maps.Marker({position: Broadway, map: map, title: "Broadway, Boston, MA", icon: icon});
+    var NorthQuincymarker = new google.maps.Marker({position: NorthQuincy, map: map, title: "North Quincy, Boston, MA", icon: icon});
+    var Shawmutmarker = new google.maps.Marker({position: Shawmut, map: map, title: "Shawmut, Boston, MA", icon: icon});
+    var Davismarker = new google.maps.Marker({position: Davis, map: map, title: "Davis, Boston, MA", icon: icon});
+    var Alewifemarker = new google.maps.Marker({position: Alewife, map: map, title: "Alewife, Boston, MA", icon: icon});
+    var KendallMITmarker = new google.maps.Marker({position: KendallMIT, map: map, title: "KendallMIT, Boston, MA", icon: icon});
+    var CharlesMGHmarker = new google.maps.Marker({position: CharlesMGH, map: map, title: "CharlesMGH, Boston, MA", icon: icon});
+    var DowntownCrossingmarker = new google.maps.Marker({position: DowntownCrossing, map: map, title: "DowntownCrossing, Boston, MA", icon: icon});
+    var QuincyCentermarker = new google.maps.Marker({position: QuincyCenter, map: map, title: "QuincyCenter, Boston, MA", icon: icon});
+    var QuincyAdamsmarker = new google.maps.Marker({position: QuincyAdams, map: map, title: "QuincyAdams, Boston, MA", icon: icon});
+    var Ashmontmarker = new google.maps.Marker({position: Ashmont, map: map, title: "Ashmont, Boston, MA", icon: icon});
+    var Wollastonmarker = new google.maps.Marker({position: Wollaston, map: map, title: "Wollaston, Boston, MA", icon: icon});
+    var FieldsCornermarker = new google.maps.Marker({position: FieldsCorner, map: map, title: "Fields Corner, Boston, MA", icon: icon});
+    var CentralSquaremarker = new google.maps.Marker({position: CentralSquare, map: map, title: "Central Square, Boston, MA", icon: icon});
+    var Braintreemarker = new google.maps.Marker({position: Braintree, map: map, title: "Braintree, Boston, MA", icon: icon});
+
+    
     
 
     //Create station polylines
@@ -99,6 +121,7 @@ function init()
     //Create self-related variables, markers, then centre map on self
     var myLat = 42.4;
     var myLng = -71;
+    //TODO FIX
     //if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
     //    navigator.geolocation.getCurrentPosition(function(position) {
     //                                             myLat = position.coords.latitude;
@@ -119,14 +142,15 @@ function init()
     /*
     //Create list of all station markers, then iterate and compare to self to calculate closest station.
     //Then, change self's marker info and draw polyline
-    var allmarkers = [Andrewmarker, Davismarker, PorterSquaremarker];
+    var allmarkers = [Andrewmarker, Davismarker, PorterSquaremarker]; //TODO CONTINUE
     var allmarkerslength = allmarkers.length;
-    var closestmarker;
+    var closestmarker = SouthStationmarker; //by default; why not?
     for (var i = 0; i < allmarkerslength; i++){
-        if (allmarkers[i] CLOSER THAN closestmarker){
+        if (allmarkers[i] CLOSER THAN closestmarker){   //TODO POLISH
             closestmarker = allmarkers[i];
         }
     }
+    memarker.title = "Closest station is " + closestmarker.title;
     //var closestCoordinates = [me, closestmarker];
     //var closestPath = new google.maps.Polyline({path: pathCoordinates, map: map, geodesic: true, strokeColor: '#551a8b', strokeOpacity: 1.0, strokeWeight: 2});
     */
