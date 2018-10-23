@@ -36,8 +36,6 @@ function init()
     ****************************************************************************/
     
     // Store position of all stations
-    // An array of objects would have been better but I am pretending not to have
-    // taken COMP 15 to save myself some work
     var SouthStation = new google.maps.LatLng(42.352271, -71.05524200000001);
     var Andrew = new google.maps.LatLng(42.330154, -71.057655);
     var PorterSquare = new google.maps.LatLng(42.3884, -71.11914899999999);
@@ -210,7 +208,6 @@ function init()
                                                  var allmarkerslength = allmarkers.length;
                                                  var closestmarker = SouthStationmarker; //by default
                                                  
-                                                  // TODO FIX
                                                   for (var i = 0; i < allmarkerslength; i++){
                                                       if (google.maps.geometry.spherical.computeDistanceBetween(me, allmarkers[i].position)
                                                           < google.maps.geometry.spherical.computeDistanceBetween(me, closestmarker.position)){
