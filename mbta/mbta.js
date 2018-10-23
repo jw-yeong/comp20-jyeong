@@ -12,11 +12,16 @@ function getschedule(stop_id, infowindow)
             messages = JSON.parse(theData);
             var schedule = "";
             for (i = 0; i < messages.data.length; i++) {
-                schedule += messages.data[i].attributes.arrival_time;
-                schedule += messages.data[i].attributes.departure_time;
-                schedule += messages.data[i].attributes.direction_id;
-                infowindow.setContent(schedule);
+                schedule = schedule + "<ul> <li> arrival:" + messages.data[i].attributes.arrival_time + "</li>";
+                schedule = schedule + "<li> departure:" + messages.data[i].attributes.departure_time + "</li>";
+                if (messages.data[i].attributes.direction_id == 0){
+                    schedule += "<li> direction: southbound </li></ul>";
+                }
+                else {
+                    schedule += "<li> direction: northbound </li></ul>";
+                }
             }
+            infowindow.setContent(schedule);
         }
     }
         
