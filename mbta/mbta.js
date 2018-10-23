@@ -16,7 +16,6 @@ function getschedule(stop_id, infowindow)
                 schedule += messages.data[i].attributes.departure_time;
                 schedule += messages.data[i].attributes.direction_id;
                 infowindow.setContent(schedule);
-                console.log(schedule);
             }
         }
     }
@@ -72,33 +71,96 @@ function init()
 
     // Create station markers and event listeners that display windowed schedule data upon marker click
     var icon = 'icon.jpg';
-    var ssinfowindow = new google.maps.InfoWindow();
+    var stationinfowindow = new google.maps.InfoWindow();
     
     var SouthStationmarker = new google.maps.Marker({position: SouthStation, map: map, title: "South Station, Boston, MA", icon: icon});
     google.maps.event.addListener(SouthStationmarker, 'click', function() {
-                                  getschedule("place-sstat", ssinfowindow);
-                                  ssinfowindow.open(map, SouthStationmarker);});
+                                  getschedule("place-sstat", stationinfowindow);
+                                  stationinfowindow.open(map, SouthStationmarker);});
     var Andrewmarker = new google.maps.Marker({position: Andrew, map: map, title: "Andrew, Boston, MA", icon: icon});
+    google.maps.event.addListener(Andrewmarker, 'click', function() {
+                                  getschedule("place-andrw", stationinfowindow);
+                                  stationinfowindow.open(map, Andrewmarker);});
     var PorterSquaremarker = new google.maps.Marker({position: PorterSquare, map: map, title: "Porter Square, Boston, MA", icon: icon});
+    google.maps.event.addListener(PorterSquaremarker, 'click', function() {
+                                  getschedule("place-portr", stationinfowindow);
+                                  stationinfowindow.open(map, PorterSquaremarker);});
     var HarvardSquaremarker = new google.maps.Marker({position: HarvardSquare, map: map, title: "Harvard Square, Boston, MA", icon: icon});
+    google.maps.event.addListener(HarvardSquaremarker, 'click', function() {
+                                  getschedule("place-harsw", stationinfowindow);
+                                  stationinfowindow.open(map, HarvardSquaremarker);});
     var JFKUMassmarker = new google.maps.Marker({position: JFKUMass, map: map, title: ",JFK/UMass Boston, MA", icon: icon});
+    google.maps.event.addListener(JFKUMassmarker, 'click', function() {
+                                  getschedule("place-jfk", stationinfowindow);
+                                  stationinfowindow.open(map, JFKUMassmarkermarker);});
     var SavinHillmarker = new google.maps.Marker({position: SavinHill, map: map, title: "Savin Hill, Boston, MA", icon: icon});
+    google.maps.event.addListener(SavinHillmarker, 'click', function() {
+                                  getschedule("place-shmnl", stationinfowindow);
+                                  stationinfowindow.open(map, SavinHillmarker);});
     var ParkStreetmarker = new google.maps.Marker({position: ParkStreet, map: map, title: "Park Street, Boston, MA", icon: icon});
+    google.maps.event.addListener(ParkStreetmarker, 'click', function() {
+                                  getschedule("place-pktrm", stationinfowindow);
+                                  stationinfowindow.open(map, ParkStreetmarker);});
     var Broadwaymarker = new google.maps.Marker({position: Broadway, map: map, title: "Broadway, Boston, MA", icon: icon});
+    google.maps.event.addListener(Broadwaymarker, 'click', function() {
+                                  getschedule("place-brdwy", stationinfowindow);
+                                  stationinfowindow.open(map, Broadwaymarker);});
     var NorthQuincymarker = new google.maps.Marker({position: NorthQuincy, map: map, title: "North Quincy, Boston, MA", icon: icon});
+    google.maps.event.addListener(NorthQuincymarker, 'click', function() {
+                                  getschedule("place-nqncy", stationinfowindow);
+                                  stationinfowindow.open(map, NorthQuincymarker);});
     var Shawmutmarker = new google.maps.Marker({position: Shawmut, map: map, title: "Shawmut, Boston, MA", icon: icon});
+    google.maps.event.addListener(Shawmutmarker, 'click', function() {
+                                  getschedule("place-smmnl", stationinfowindow);
+                                  stationinfowindow.open(map, Shawmutmarker);});
     var Davismarker = new google.maps.Marker({position: Davis, map: map, title: "Davis, Boston, MA", icon: icon});
+    google.maps.event.addListener(Davismarker, 'click', function() {
+                                  getschedule("place-davis", stationinfowindow);
+                                  stationinfowindow.open(map, Davismarker);});
     var Alewifemarker = new google.maps.Marker({position: Alewife, map: map, title: "Alewife, Boston, MA", icon: icon});
+    google.maps.event.addListener(Alewifemarker, 'click', function() {
+                                  getschedule("place-alfcl", stationinfowindow);
+                                  stationinfowindow.open(map, Alewifemarker);});
     var KendallMITmarker = new google.maps.Marker({position: KendallMIT, map: map, title: "KendallMIT, Boston, MA", icon: icon});
+    google.maps.event.addListener(KendallMITmarker, 'click', function() {
+                                  getschedule("place-knncl", stationinfowindow);
+                                  stationinfowindow.open(map, KendallMITmarker);});
     var CharlesMGHmarker = new google.maps.Marker({position: CharlesMGH, map: map, title: "CharlesMGH, Boston, MA", icon: icon});
+    google.maps.event.addListener(CharlesMGHmarker, 'click', function() {
+                                  getschedule("place-chmnl", stationinfowindow);
+                                  stationinfowindow.open(map, CharlesMGHmarker);});
     var DowntownCrossingmarker = new google.maps.Marker({position: DowntownCrossing, map: map, title: "DowntownCrossing, Boston, MA", icon: icon});
+    google.maps.event.addListener(DowntownCrossingmarker, 'click', function() {
+                                  getschedule("place-dwnxg", stationinfowindow);
+                                  stationinfowindow.open(map, DowntownCrossingmarker);});
     var QuincyCentermarker = new google.maps.Marker({position: QuincyCenter, map: map, title: "QuincyCenter, Boston, MA", icon: icon});
+    google.maps.event.addListener(QuincyCentermarker, 'click', function() {
+                                  getschedule("place-qnctr", stationinfowindow);
+                                  stationinfowindow.open(map, QuincyCentermarker);});
     var QuincyAdamsmarker = new google.maps.Marker({position: QuincyAdams, map: map, title: "QuincyAdams, Boston, MA", icon: icon});
+    google.maps.event.addListener(QuincyAdamsmarker, 'click', function() {
+                                  getschedule("place-qamnl", stationinfowindow);
+                                  stationinfowindow.open(map, QuincyAdamsmarker);});
     var Ashmontmarker = new google.maps.Marker({position: Ashmont, map: map, title: "Ashmont, Boston, MA", icon: icon});
+    google.maps.event.addListener(Ashmontmarker, 'click', function() {
+                                  getschedule("place-asmnl", stationinfowindow);
+                                  stationinfowindow.open(map, Ashmontmarker);});
     var Wollastonmarker = new google.maps.Marker({position: Wollaston, map: map, title: "Wollaston, Boston, MA", icon: icon});
+    google.maps.event.addListener(Wollastonmarker, 'click', function() {
+                                  getschedule("place-wlstra", stationinfowindow);
+                                  stationinfowindow.open(map, Wollastonmarker);});
     var FieldsCornermarker = new google.maps.Marker({position: FieldsCorner, map: map, title: "Fields Corner, Boston, MA", icon: icon});
+    google.maps.event.addListener(FieldsCornermarker, 'click', function() {
+                                  getschedule("place-fldcr", stationinfowindow);
+                                  stationinfowindow.open(map, FieldsCornermarker);});
     var CentralSquaremarker = new google.maps.Marker({position: CentralSquare, map: map, title: "Central Square, Boston, MA", icon: icon});
+    google.maps.event.addListener(CentralSquaremarker, 'click', function() {
+                                  getschedule("place-cntsq", stationinfowindow);
+                                  stationinfowindow.open(map, CentralSquaremarker);});
     var Braintreemarker = new google.maps.Marker({position: Braintree, map: map, title: "Braintree, Boston, MA", icon: icon});
+    google.maps.event.addListener(Braintreemarker, 'click', function() {
+                                  getschedule("place-brntn", stationinfowindow);
+                                  stationinfowindow.open(map, Braintreemarker);});
 
     
     //Create red polylines between stations
@@ -130,7 +192,7 @@ function init()
                                                  myLat = position.coords.latitude;
                                                  myLng = position.coords.longitude;
                                                  me = new google.maps.LatLng(myLat, myLng);
-                                                 memarker = new google.maps.Marker({position: me, map: map, title: "Dis is u", icon: meicon});
+                                                 memarker = new google.maps.Marker({position: me, map: map, title: "This is me", icon: meicon});
                                                  map.panTo(me);
                                                  google.maps.event.addListener(memarker, 'click', function() {
                                                                                meinfowindow.setContent(memarker.title);
