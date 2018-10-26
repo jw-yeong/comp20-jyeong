@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        <meta charset="utf-8" />
+        <title>Captain's Log</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            // Your work will be done here...
+            $( document ).ready(function() {
+                //uncomment this next line to clear local storage:
+                //localStorage.clear();
+                                
+                //load saved entries
+                for (var i = 0; i < localStorage.length; i++){
+                    var saved_entry = localStorage.getItem(localStorage.key(i));
+                    $("#log").append(saved_entry);
+                }
+                //if new entry is submitted:
+                $("#msg").change(function(){
+                    var date = new Date();
+                    var new_entry = date.toString() + " - " + $("#msg").val() + "<br>";
+                    //store nth (== localStorage.length) entry at index n
+                    localStorage.setItem(localStorage.length, new_entry);
+                    $("#log").append(new_entry);
+
+                });
+            });
+            </script>
+    </head>
+    
+    <body>
+        <h1>Captain's Log</h1>
+        <h3>New entry: <input type="text" id="msg" name="msg" size="30" /></h3>
+        <div id="log"></div>
+    </body>
+</html>
