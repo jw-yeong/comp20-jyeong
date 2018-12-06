@@ -7,32 +7,39 @@
     </head>
     
     <body>
-        
-        <h1 id="title">COMP 20 F2018 Security Lab</h1>        
+      <h1 id="title">COMP 20 F2018 Security Lab</h1>
+      <p> YEONG Jian Wei</p>  
+      <h2>Introduction</h2>
+        <p> The task is to find security vulnerabilities in a web application. The web application
+        is essentially a server-side application and database that receives, stores, and displays
+        scores from G. Cirulli's 2048 game. (For it to work, a small modification to the 2048 game also
+        needs to be made. I downloaded a local copy of the game, then made this modification.)
+        I also got access to the server-side source code/database server. <br>
+        <br>
+        The application is hosted at https://lit-chamber-96511.herokuapp.com, whereupon the main page
+        displays the highest scores. There is also a POST path (/submit) and a GET path for a single
+        user's scores (/scores.json?username=...).
+        </p>
 
-        <h2>Introduction</h2>
-          <p> Description of product and security task </p>
+      <h2>Methodology</h2>
+        I used the 2048/Heroku app normally, inserting data in the database with the (local copy of the) game and with curl. I checked that everything was working: entries were being inserted into the database 
+        , verifying via both the mlab interface as well as via the main get('/')/leaderboard method.<br>
+        <br>
+        Next, I began penetration testing. First, without looking at the source code, I targetted the /submit POST method , and successfully inserted malicious code, both through the 2048 game, as well as through curl, showing that arbitrary code can be inserted that executes when users attempted to view the leaderboard. To prove this, I created alerts; see Issues found below.<br>
+        <br>
+        Next, I targetted the database via the query string in the /scores.json GET method. After trying several permutations of query strings, I looked at the source code, and then constructed more          informed query strings. 
+        </p>
 
-        <h2>Methodology</h2>
-          <p>For preparation, I downloaded my partner's server side code, then modified my 2048 code to post
-          results to my partner's Heroku server side app. I also got access to 
-          my partner's source code via being added as a collaborator.<br>
-          <br>
-          I used the 2048/Heroku app normally, inserting data in the database with the game and with
-          curl. I checked that entries were being inserted into the database via the mlab interface as
-          well as via the main get('/')/leaderboard method.<br>
-          <br>
-          Next, I began penetration testing. First, without looking at the source code, I targetted the /submit POST method (which I knew existed from the specification of the previous homework), and successfully
-          inserted malicious code, both through the 2048 game, as well as through curl, allowing for
-          the execution of arbitrary code when users attempted to view the leaderboard. To prove this, I created alerts.<br>
-          <br>
-          Next, I targetted the database via the query string in the /scores.json GET method. After trying several permutations of query strings, I looked at the source code, and then constructed more
-          informed query strings. 
-          </p>
+      <h2>Abstract of Findings</h2>
+        Major security flaws were found in this web application. Some flaws allow attackers to inject
+        any code they want into the website, essentially giving them total control over the website
+        as displayed to users. Another flaw could cause a webpage to leak/view more information from the
+        database than intended, which would be disastrous if the data was confidential.<br>
+        <br>
+        All of these flaws were caused by attackers using legitimate methods to send data to the website,
+        but the application itself failed to properly check incoming data for malicious content.
 
-        <h2>Abstract of Findings</h2>
-                  <p>lay description</p>
-        <h2>Issues Found; Technical Analysis</h2>
+      <h2>Issues Found; Technical Analysis</h2>
           <ul>
           <li> Issue: XSS via 2048 </li>
           <li> Location: index.js, line 23 </li>
@@ -57,18 +64,18 @@
           <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.</li>
           </ul>
 
-        <h2>Conclusion</h2>
-            <p>The server-side was rife with simple yet critical vulnerablities such as XSS and
-            database injection. All the problems described above could have been avoided simply
-            by checking/sanitizing user input for potentially malicious content; 
-            the most heavy-handed, yet simple and effective sanitization being to simply remove
-            all special characters from input before processing it.</p>
-        <h2>References</h2>
-          <a href="https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html">
-            WebSecurify - Hacking Nodejs and Mongodb</a><br>
+      <h2>Conclusion</h2>
+        <p>The server-side was rife with simple yet critical vulnerablities such as XSS and 
+        database injection. All the problems described above could have been avoided simply
+        by checking/sanitizing user input for potentially malicious content; 
+        the most heavy-handed, yet simple and effective sanitization being to simply remove
+        all special characters from input before processing it.</p>
+
+      <h2>References</h2>
+          <a href="https://github.com/gabrielecirulli/2048">
+            2048 game source code</a><br>
           <a href="https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html">
             WebSecurify - Hacking Nodejs and Mongodb</a>
         
-
     </body>
 </html>	
