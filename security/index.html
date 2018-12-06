@@ -34,18 +34,29 @@
                   <p>lay description</p>
         <h2>Issues Found; Technical Analysis</h2>
           <ul>
-          <li> Issue: XSS via curl </li>
+          <li> Issue: XSS via 2048 </li>
           <li> Location: index.js, line 23 </li>
           <li> Severity: 9 </li>
           <li> Description: Finished the XSS game, then entered HTML script in the username
            field. This resulted in the script being entered in the database, which was then
            executed when the database was rendered on the leaderboard.</li>
           <img src="issue11.png" alt="vulnerabilityscreenshot1.1">
-          <img src="issue12.png" alt="vulnerabilityscreenshot2.2">
+          <img src="issue12.png" alt="vulnerabilityscreenshot1.2">
           <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.</li>
           </ul>
-                  <p>Issue, location/page, severity, description, pic proof, resolution</p>
-                  <p>XSS post method (via curl)
+          <br>
+          <ul>
+          <li> Issue: XSS via curl </li>
+          <li> Location: index.js, line 23 </li>
+          <li> Severity: 9 </li>
+          <li> Description: Essentially the same problem as above, except this time via curl.
+           With curl, I entered the HTML script as one of the parameters. This resulted in the script being entered in the database, which was then executed when the database was rendered on the leaderboard.
+          </li>
+          <img src="issue21.png" alt="vulnerabilityscreenshot2.1">
+          <img src="issue22.png" alt="vulnerabilityscreenshot2.2">
+          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.</li>
+          </ul>
+
         <h2>Conclusion</h2>
             <p>The server-side was rife with simple yet critical vulnerablities such as XSS and
             database injection. All the problems described above could have been avoided simply
