@@ -23,7 +23,9 @@
 
       <h2>Methodology</h2>
         I used the 2048/Heroku app normally, inserting data in the database with the (local copy of the) game and with curl. I checked that everything was working: entries were being inserted into the database 
-        , verifying via both the mlab interface as well as via the main get('/')/leaderboard method.<br>
+        , verifying via both the mlab interface as well as via the main get('/')/leaderboard method. However,
+        the submit method did not return any JSON upon a successful insert as it was supposed to; I later
+        verified that this was not implemented in the source code.<br>
         <br>
         Next, I began penetration testing. First, without looking at the source code, I targetted the /submit POST method , and successfully inserted malicious code, both through the 2048 game, as well as through curl, showing that arbitrary code can be inserted that executes when users attempted to view the leaderboard. To prove this, I created alerts; see Issues found below.<br>
         <br>
@@ -49,7 +51,8 @@
            executed when the database was rendered on the leaderboard.</li>
           <img src="issue11.png" alt="vulnerabilityscreenshot1.1">
           <img src="issue12.png" alt="vulnerabilityscreenshot1.2">
-          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.</li>
+          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.
+          See sanitation link in references.</li>
           </ul>
           <br>
           <ul>
@@ -61,7 +64,31 @@
           </li>
           <img src="issue21.png" alt="vulnerabilityscreenshot2.1">
           <img src="issue22.png" alt="vulnerabilityscreenshot2.2">
-          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used.</li>
+          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used. 
+          See sanitation link in references.</li>
+          </ul>
+          <br>
+          <li> Issue: Potential Mongodb Injection </li>
+          <li> Location: index.js, lines 37-50 particularly 40, 45 </li>
+          <li> Severity: 6 </li>
+          <li> Description: Again, since the "scores.json" took user input in the form of query strings
+            without sanitization, there is a possiblity of database injection. In particular, since the
+            query string is used as a filter for the database, a filter that evaluates to true such as {$gt:""}
+            may be able to cause a dump of all database data; however I was unable to obtain such a result
+            after trying numerous permutations of query strings, including, but not limited to:<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=";response.send(hi)"<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=\})response.send(hi);//<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=}).toArray(function(error, docs){response.send(hi);});});}});<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=$gt<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=\{\$gt\}<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username={"$gt":""}<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username={\"\$gt\"\:\"\"}<br>
+            https://lit-chamber-96511.herokuapp.com/scores.json?username=\{\"\$gt\"\:\"\"\}<br>
+            The offending code:
+          </li>
+          <img src="issue3.png" alt="vulnerabilityscreenshot3">
+          <li> Resolution: Could be avoided by checking and sanitizing user input before it's used. 
+          See sanitation link in references.</li>
           </ul>
 
       <h2>Conclusion</h2>
@@ -75,7 +102,9 @@
           <a href="https://github.com/gabrielecirulli/2048">
             2048 game source code</a><br>
           <a href="https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html">
-            WebSecurify - Hacking Nodejs and Mongodb</a>
+            WebSecurify - Hacking Nodejs and Mongodb</a><br>
+          <a href="https://zanon.io/posts/nosql-injection-in-mongodb">
+            Simple node.js Sanitation</a>
         
     </body>
 </html>	
